@@ -34,37 +34,56 @@ addItem.addEventListener('click', () => {
 function sapXepTangDan() {
   // console.log(list.arr);
   let z = list.arr.sort((a, b) =>
-    a.name.localeCompare(b.name)  
+    a.name.localeCompare(b.name)
   );
-  // let z =list.sapXepTangDan()
   renderElm(z);
   setItem(z);
 }
 function sapXepGiamDan() {
 
   let z = list.arr.sort((a, b) =>
-    a.name.localeCompare(b.name)*(-1)  
+    a.name.localeCompare(b.name) * (-1)
   );
   renderElm(z);
   setItem(z);
 }
 function xoa(id) {
+  console.log(id)
   list.arr.splice(id, 1);
   renderElm(list.arr);
   setItem(list.arr);
 }
-function hoanThanh(id) {
+//new arr chua arr cong viec hoan thanh
+let newArr = [];
 
-  console.log(list.arr[id].name);
-  content = `<li> ${list.arr[id].name}</li>`;
-  getElm('completed').innerHTML = content;
+function hoanThanh(id) {
+  newArr.push(list.arr[id].name);
+  renderElmHT(newArr);
   list.arr.splice(id, 1);
-  renderElm(list.arr)
+  renderElm(list.arr);
   setItem(list.arr);
 }
+function xoaHT(id) {
+  newArr.splice(id, 1);
+  renderElmHT(newArr);
+}
+function renderElmHT(arr) {
+  let content = '';
+  arr.map((item, index) => {
+    content += `
+   <li>${index}:${item}
+   <div>
+     <button onclick=" xoaHT(${index})">
+         <i class="fas fa-trash"></i>
+     </button>       
+   </div>
+</li>
+    `
+  })
+  getElm('completed').innerHTML = content;
 
-
-
+}
+//set item
 function setItem(arr) {
   return localStorage.setItem('DSHD', JSON.stringify(arr))
 }
